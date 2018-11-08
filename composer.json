@@ -18,6 +18,16 @@
         "phpunit/phpunit": "^7.4.3",
         "composer/composer": "^1.7.2"
     },
+    "autoload": {
+        "psr-4": {
+            "Ayesh\\ComposerPreload\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ayesh\\ComposerPreload\\Tests\\": "tests/"
+        }
+    },
     "scripts": {
         "test": ["phpunit "]
     }
