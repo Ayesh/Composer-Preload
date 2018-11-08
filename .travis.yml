@@ -1,0 +1,12 @@
+language: php
+php:
+- 7.2
+- nightly
+
+before_script:
+- composer self-update
+- travis_retry composer install --prefer-source --no-interaction --dev
+script:
+- composer test
+#after_success:
+#- bash <(curl -s https://codecov.io/bash)
