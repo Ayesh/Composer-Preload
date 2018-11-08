@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": "^7.2",
-        "composer-plugin-api": "^1.1.0",
+        "composer-plugin-api": "^1.0",
         "ayesh/php-timer": "^2.0.0"
     },
     "require-dev": {
@@ -27,6 +27,9 @@
         "psr-4": {
             "Ayesh\\ComposerPreload\\Tests\\": "tests/"
         }
+    },
+    "extra": {
+        "class": "Ayesh\\ComposerPreload\\Plugin"
     },
     "scripts": {
         "test": ["phpunit "]
