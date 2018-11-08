@@ -2,6 +2,13 @@
     "name": "ayesh/composer-preload",
     "description": "Preload your sweet sweet code to opcache with a composer command, making your code faster to run",
     "type": "composer-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ayesh Karunaratne",
+            "email": "ayesh@ayesh.me"
+        }
+    ],
     "require": {
         "php": "^7.2",
         "composer-plugin-api": "^1.1.0",
@@ -11,13 +18,6 @@
         "phpunit/phpunit": "^7.4.3",
         "composer/composer": "^1.7.2"
     },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Ayesh Karunaratne",
-            "email": "ayesh@ayesh.me"
-        }
-    ],
     "scripts": {
         "test": ["phpunit "]
     }
