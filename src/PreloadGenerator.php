@@ -35,7 +35,7 @@ class PreloadGenerator {
       ->name('*.php');
   }
 
-  public function excludePath($path): void {
+  public function addExcludePath($path): void {
     $this->exclude[] = $path;
   }
 }
