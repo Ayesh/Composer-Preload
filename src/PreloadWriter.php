@@ -22,7 +22,7 @@ class PreloadWriter {
  * during the next "composer preload" command. 
  */
  
-if (!function_exists('opcache_compile_file') || opcache_get_configuration()['directives']['opcache.enable']) {
+if (!function_exists('opcache_compile_file') || empty(opcache_get_configuration()['directives']['opcache.enable'])) {
   echo "Opcache is not available.";
   die(1);
 }
@@ -32,7 +32,7 @@ HEADER;
   }
 
   private function genCacheLine(string $file_path): string {
-    return 'opcache_compile_file( "'. $file_path . '");' . PHP_EOL;
+    return 'opcache_compile_file( "'. addslashes($file_path) . '");' . PHP_EOL;
   }
 
   public function getScript(): string {
