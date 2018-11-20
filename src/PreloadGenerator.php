@@ -8,6 +8,7 @@ use Symfony\Component\Finder\Finder;
 
 class PreloadGenerator {
   private $paths = [];
+  private $exclude = [];
 
   /**
    * @var Finder
@@ -22,7 +23,7 @@ class PreloadGenerator {
   }
 
   public function addPath(string $path): void {
-    $this->paths = $path;
+    $this->paths[] = $path;
   }
 
   private function findFiles(): void {
@@ -30,6 +31,11 @@ class PreloadGenerator {
     $finder->ignoreVCS(true)
       ->ignoreUnreadableDirs()
       ->in($this->paths)
+      ->exclude($this->exclude)
       ->name('*.php');
+  }
+
+  public function excludePath($path): void {
+    $this->exclude[] = $path;
   }
 }

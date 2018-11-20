@@ -49,22 +49,35 @@ class PreloadCommand extends BaseCommand {
   private function generatePreload(): PreloadList {
     $generator = new PreloadGenerator();
 
-    if (isset($this->config['paths'])) {
-      if (!\is_iterable($this->config['paths'])) {
-        throw new \InvalidArgumentException(sprintf('"%s" must be an array of paths to preload', 'extra.preload.paths'));
-      }
+    $this->validateConfiguration();
 
-      foreach ($this->config['paths'] as $key => $path) {
-        if (!\is_string($path)) {
-          throw new \InvalidArgumentException(sprintf('"%s" must be string locating a path in the file system. %s given.',
-            'extra.preload.paths.' . $key,
-            \gettype($path)
-            ));
-        }
-        $generator->addPath($path);
-      }
+
+    foreach ($this->config['paths'] as $path) {
+      $generator->addPath($path);
     }
 
     return $generator->getList();
+  }
+
+  private function validateConfiguration(): void {
+    $force_str_array = ['paths', 'exclude'];
+    foreach ($force_str_array as $item) {
+      if (!isset($this->config[$item])) {
+        $this->config[$item] = [];
+      }
+
+      if (!\is_iterable($this->config[$item])) {
+        throw new \InvalidArgumentException(sprintf('"%s" must be an array.', 'extra.preload.' . $item));
+      }
+
+      foreach ($this->config[$item] as $key => $path) {
+        if (!\is_string($path)) {
+          throw new \InvalidArgumentException(sprintf('"%s" must be string locating a path in the file system. %s given.',
+            "extra.preload.{$path}.{$key}",
+            \gettype($path)
+          ));
+        }
+      }
+    }
   }
 }
