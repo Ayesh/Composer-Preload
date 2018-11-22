@@ -30,7 +30,7 @@
         }
     },
     "extra": {
-        "class": "Ayesh\\ComposerPreload\\Plugin"
+        "class": "Ayesh\\ComposerPreload\\Composer\\Plugin"
     },
     "scripts": {
         "test": ["phpunit "]

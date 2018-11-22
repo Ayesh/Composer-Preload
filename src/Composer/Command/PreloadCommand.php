@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Ayesh\ComposerPreload\Command;
+namespace Ayesh\ComposerPreload\Composer\Command;
 
 use Ayesh\ComposerPreload\PreloadGenerator;
 use Ayesh\ComposerPreload\PreloadList;

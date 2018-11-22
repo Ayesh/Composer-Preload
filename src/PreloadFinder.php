@@ -9,7 +9,7 @@ class PreloadFinder {
   private $include_dirs = [];
   private $exclude_dirs = [];
   private $exclude_subdirs = [];
-  private $files = ['*.php'];
+  private $files = '*.php';
 
   /**
    * @var \Symfony\Component\Finder\Finder
@@ -78,6 +78,9 @@ class PreloadFinder {
     $dirs = [];
     foreach ($this->exclude_dirs as $dir) {
       $dir = str_replace('\\', '/', $dir);
+      if (substr($dir, -1) !== '/') {
+        $dir .= '/'; // Force all directives to be full direcory paths with "/" suffix.
+      }
       $dir = preg_quote($dir, '/');
       $dirs[] = $dir;
     }

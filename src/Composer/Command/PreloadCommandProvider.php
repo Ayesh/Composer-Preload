@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Ayesh\ComposerPreload\Command;
+namespace Ayesh\ComposerPreload\Composer\Command;
 
 use Composer\Plugin\Capability\CommandProvider as CommandProviderCapability;
 
