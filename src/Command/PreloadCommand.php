@@ -80,6 +80,10 @@ HELP
       $generator->addPath($path);
     }
 
+    foreach ($this->config['exclude'] as $path) {
+      $generator->addExcludePath($path);
+    }
+
     return $generator->getList();
   }
 

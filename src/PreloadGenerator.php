@@ -3,39 +3,27 @@
 
 namespace Ayesh\ComposerPreload;
 
-
-use Symfony\Component\Finder\Finder;
-
 class PreloadGenerator {
-  private $paths = [];
-  private $exclude = [];
-
   /**
-   * @var Finder
+   * @var PreloadFinder
    */
   private $finder;
 
+  public function __construct() {
+    $this->finder = new PreloadFinder();
+  }
+
   public function getList(): PreloadList {
-    $this->findFiles();
     $list = new PreloadList();
     $list->setList($this->finder->getIterator());
     return $list;
   }
 
   public function addPath(string $path): void {
-    $this->paths[] = $path;
+    $this->finder->addIncludePath($path);
   }
 
-  private function findFiles(): void {
-    $this->finder = $finder = new Finder();
-    $finder->ignoreVCS(true)
-      ->ignoreUnreadableDirs()
-      ->in($this->paths)
-      ->exclude($this->exclude)
-      ->name('*.php');
-  }
-
-  public function addExcludePath($path): void {
-    $this->exclude[] = $path;
+  public function addExcludePath(string $path): void {
+    $this->finder->addExcludePath($path);
   }
 }
