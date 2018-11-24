@@ -28,17 +28,20 @@ composer g require ayesh/composer-preload
 * Modify your `composer.json` file, and create a section called `extra` if it's not there already.
 ```
 {
-  "extra": {
-	"preload": {
-	    "paths": [
-		    "src"
-	    ],
-        "exclude": [
-          "src/tests"
-        ]
-        "no-status-check": false,
+    "extra": {
+        "preload": {
+            "paths": [
+                "web"
+            ],
+            "exclude": [
+                "web/core/tests",
+                "web/core/lib/Drupal/Component/Assertion",
+                "web/core/modules/simpletest",
+                "web/core/modules/editor/src/Tests"
+            ],
+            "no-status-check": false
+        }
     }
-  }
 }
 ```
 The `extra.preload` directive contains all the configuration options for this plugin. The `paths` directive must be an array of directories relative to the `composer.json` file. These directories will be scanned recursively for `.php` files, converted to absolute paths, and appended to the `vendor/preload.php` file.
