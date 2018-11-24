@@ -17,7 +17,10 @@ final class PreloadList implements \IteratorAggregate {
     $this->list = $list;
   }
 
-  public function getIterator(): Traversable {
+  public function getIterator(): iterable {
+    if (!$this->list) {
+      throw new \BadMethodCallException('Attempting to fetch the iterator without setting one first.');
+    }
     return $this->list;
   }
 }
