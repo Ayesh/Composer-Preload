@@ -15,6 +15,8 @@ class PreloadCommandProvider implements CommandProviderCapability {
   public function getCommands(): array {
     return [
       new PreloadCommand(),
+      new PreloadStatusCommand(),
+      new PreloadClearCommand(),
     ];
   }
 }

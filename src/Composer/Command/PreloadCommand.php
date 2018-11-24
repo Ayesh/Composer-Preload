@@ -18,12 +18,13 @@ class PreloadCommand extends BaseCommand {
   private $config;
 
   protected function configure() {
-    $this->setName('preload');
-    $this->setDescription('Preloads the source files to PHP OPCache to speed up execution.')
-    ->setDefinition(array(
-      new InputOption('no-status-check', null, InputOption::VALUE_NONE, 'Do not include Opcache status checks in the generated file (useful if you want to combine multiple files).'),
-    ))
-    ->setHelp(
+    $this->setName('preload:generate')
+         ->setAliases(['preload'])
+         ->setDescription('Preloads the source files to PHP OPCache to speed up execution.')
+         ->setDefinition(array(
+           new InputOption('no-status-check', null, InputOption::VALUE_NONE, 'Do not include Opcache status checks in the generated file (useful if you want to combine multiple files).'),
+           ))
+         ->setHelp(
       <<<HELP
 Composer Preload plugin adds this "preload" command, so you can generate a PHP file at 'vendor/preload.php' containing a list of 
 PHP files to load into opcache when called. This can significantly speed up your PHP applications if used correctly. 
