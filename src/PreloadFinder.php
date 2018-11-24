@@ -32,6 +32,7 @@ class PreloadFinder {
   }
 
   public function addExcludePath(string $dir_name): void {
+    $this->exclude_regex = null;
     $this->exclude_dirs[] = $dir_name;
   }
 
@@ -66,7 +67,7 @@ class PreloadFinder {
     });
   }
 
-  private function getExcludeRegex(): ?string {
+  protected function getExcludeRegex(): ?string {
     if ($this->exclude_regex !== NULL) {
       return $this->exclude_regex;
     }
