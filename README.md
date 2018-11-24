@@ -25,9 +25,7 @@ composer g require ayesh/composer-preload
 
 # Configuration
 
-Before you can run the `composer preload` command, you **must** define the directories to preload.
-
-Modify your `composer.json` file, and create a section called `extra` if it's not there already.
+* Modify your `composer.json` file, and create a section called `extra` if it's not there already.
 ```
 {
   "extra": {
@@ -44,6 +42,8 @@ Modify your `composer.json` file, and create a section called `extra` if it's no
 }
 ```
 The `extra.preload` directive contains all the configuration options for this plugin. The `paths` directive must be an array of directories relative to the `composer.json` file. These directories will be scanned recursively for `.php` files, converted to absolute paths, and appended to the `vendor/preload.php` file.
+* Run the `composer preload` command.
+
 
 ## Configuration options
 
@@ -66,6 +66,10 @@ If this setting is set to `true` (you can also pass command line option
 additional checks to make sure the opcache is enabled. This setting is
 disabled by default, and the generated `preload.php` file will contain
 a small snippet on the top that makes it quit if opcache is not enabled.
+
+# Preloading
+
+To do the actual preloading, execute vendor/preload.php. In a webserver context, this probably means you'll want to link vendor/preload.php into your docroot somwhere and curl it. For example, `ln -s vendor/preload.php path/to/docroot/preload.php` and then `curl localhost/preload.php` on webserver startup.
 
 # Roadmap
 
