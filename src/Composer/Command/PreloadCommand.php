@@ -6,6 +6,7 @@ namespace Ayesh\ComposerPreload\Composer\Command;
 use Ayesh\ComposerPreload\PreloadGenerator;
 use Ayesh\ComposerPreload\PreloadList;
 use Ayesh\ComposerPreload\PreloadWriter;
+use Ayesh\PHP_Timer\Stopwatch;
 use Composer\Command\BaseCommand;
 use Composer\IO\IOInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,6 +38,7 @@ HELP
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
+    $timer = new Stopwatch();
     $composer = $this->getComposer();
     $extra = $composer->getPackage()->getExtra();
 
@@ -59,8 +61,9 @@ HELP
     $writer->write();
 
     $io = $this->getIO();
-    $io->writeError('Preload file created successfully.');
-    $io->writeError(sprintf('Preload script contains %d files.', $writer->getCount()), true, IOInterface::VERBOSE);
+    $io->writeError('<info>Preload file created successfully.</info>');
+    $io->writeError(sprintf('<comment>Preload script contains %d files.</comment>', $writer->getCount()), true, IOInterface::VERBOSE);
+    $io->writeError(sprintf('<comment>Elapsed time: %.2f sec.</comment>', $timer->read()), true, IOInterface::VERY_VERBOSE);
   }
 
   private function setConfig(array $config, InputInterface $input): void {
