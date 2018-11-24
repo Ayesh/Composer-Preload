@@ -2,9 +2,9 @@
 
 namespace Ayesh\ComposerPreload\Tests;
 
-use Ayesh\ComposerPreload\Command\PreloadCommand;
-use Ayesh\ComposerPreload\Command\PreloadCommandProvider;
-use Ayesh\ComposerPreload\Plugin;
+use Ayesh\ComposerPreload\Composer\Command\PreloadCommand;
+use Ayesh\ComposerPreload\Composer\Command\PreloadCommandProvider;
+use Ayesh\ComposerPreload\Composer\Plugin;
 use PHPUnit\Framework\TestCase;
 
 class PluginAutoloadTest extends TestCase {

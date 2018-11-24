@@ -10,7 +10,7 @@ env:
 
 before_script:
 - composer self-update
-- travis_retry composer install $PREFER_LOWEST --prefer-source --no-interaction --dev
+- travis_retry composer update $PREFER_LOWEST --prefer-source --no-interaction --dev
 script:
 - composer test
 #after_success:
