@@ -3,9 +3,14 @@ php:
 - 7.2
 - nightly
 
+env:
+  matrix:
+  - PREFER_LOWEST="--prefer-lowest"
+  - PREFER_LOWEST=""
+
 before_script:
 - composer self-update
-- travis_retry composer install --prefer-source --no-interaction --dev
+- travis_retry composer install $PREFER_LOWEST --prefer-source --no-interaction --dev
 script:
 - composer test
 #after_success:
