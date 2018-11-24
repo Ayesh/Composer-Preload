@@ -69,7 +69,20 @@ a small snippet on the top that makes it quit if opcache is not enabled.
 
 # Preloading
 
-To do the actual preloading, execute vendor/preload.php. In a webserver context, this probably means you'll want to link vendor/preload.php into your docroot somwhere and curl it. For example, `ln -s vendor/preload.php path/to/docroot/preload.php` and then `curl localhost/preload.php` on webserver startup.
+To do the actual preloading, execute `vendor/preload.php`. 
+
+If you have enabled opcache for CLI applications, you can directly call
+`php vendor/preload.php` to execute the generated PHP file and warm up
+the cache right away. 
+
+Future versions of this plugin will have a feature to generate the file
+_and_ immediately run it.
+
+In a webserver context, or when you cannot run the PHP file with the CLI
+`php` binary. this probably means you'll want to link 
+`vendor/preload.php` into your docroot somwhere and curl it. For 
+example, `ln -s vendor/preload.php path/to/docroot/preload.php` and 
+then `curl localhost/preload.php` on webserver startup.
 
 # Roadmap
 
