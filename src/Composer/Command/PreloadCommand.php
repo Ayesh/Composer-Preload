@@ -87,6 +87,8 @@ HELP
       $generator->addExcludePath($path);
     }
 
+    $generator->setExcludeRegex($this->config['exclude-regex']);
+
     return $generator->getList();
   }
 
@@ -119,6 +121,19 @@ HELP
 
       if (!\is_bool($this->config[$item])) {
         throw new \InvalidArgumentException(sprintf('"%s" must be boolean value. %s given.',
+          'extra.preload.' . $item,
+          \gettype($this->config[$item])));
+      }
+    }
+
+    $force_positive_string = ['exclude-regex' => null];
+    foreach ($force_positive_string as $item => $default_value) {
+      if (!isset($this->config[$item]) || '' === $this->config[$item]) {
+        $this->config[$item] = $default_value;
+      }
+
+      if (isset($this->config[$item]) && !\is_string($this->config[$item])) {
+        throw new \InvalidArgumentException(sprintf('"%s" must be string value. %s given.',
           'extra.preload.' . $item,
           \gettype($this->config[$item])));
       }

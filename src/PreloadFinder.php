@@ -9,6 +9,7 @@ class PreloadFinder {
   private $include_dirs = [];
   private $exclude_dirs = [];
   private $exclude_subdirs = [];
+  private $exclude_regex_static;
   private $files = '*.php';
 
   /**
@@ -52,22 +53,37 @@ class PreloadFinder {
       $this->finder->exclude($this->exclude_subdirs);
     }
 
-    $regex = $this->getExcludeRegex();
-
-    if (!$regex) {
-      return;
+    $exclude_function = $this->getExcludeCallable();
+    if ($exclude_function !== null) {
+      $this->finder->filter($exclude_function);
     }
-
-    $this->finder->filter(function (\SplFileInfo $file) use ($regex) {
-      /**
-       * @var \SplFileInfo $file
-       */
-      $path = str_replace('\\', '/', $file->getPathname());
-      return !preg_match($regex, $path);
-    });
   }
 
-  protected function getExcludeRegex(): ?string {
+  private function getExcludeCallable(): ?callable {
+    $regex_dir = $this->getDirectoryExclusionRegex();
+    $regex_static = $this->exclude_regex_static;
+
+    if (!$regex_dir && $this->exclude_regex_static === null) {
+      return null;
+    }
+
+    return function (\SplFileInfo $file) use ($regex_dir, $regex_static): bool {
+      $path = str_replace('\\', '/', $file->getPathname());
+      $exclude_match = false;
+      if ($regex_dir) {
+        $exclude_match = preg_match($regex_dir, $path);
+      }
+
+      // If excluded due to directory match above , don't run the static regex.
+      if (!$exclude_match && $regex_static) {
+        $exclude_match = preg_match($regex_static, $path);
+      }
+
+      return !$exclude_match;
+    };
+  }
+
+  protected function getDirectoryExclusionRegex(): ?string {
     if ($this->exclude_regex !== NULL) {
       return $this->exclude_regex;
     }
@@ -75,6 +91,7 @@ class PreloadFinder {
     if (empty($this->exclude_dirs)) {
       return null;
     }
+
     $regex = '/^(';
     $dirs = [];
     foreach ($this->exclude_dirs as $dir) {
@@ -90,5 +107,21 @@ class PreloadFinder {
 
     $this->exclude_regex = $regex;
     return $regex;
+  }
+
+  public function setExcludeRegex(?string $pattern): void {
+    if (null !== $pattern) {
+      // A parent error handler might catch the errors.
+      preg_match($pattern, '', $fake_matched);
+      $regex_error = preg_last_error();
+      if ($regex_error !== \PREG_NO_ERROR) {
+        throw new \InvalidArgumentException(
+          sprintf('Preload exclusion regex is invalid: "%s". Error code: %d',
+            $pattern, $regex_error),
+          $regex_error);
+      }
+    }
+
+    $this->exclude_regex_static = $pattern;
   }
 }

@@ -8,8 +8,8 @@ use PHPUnit\Framework\TestCase;
 class FInderExclusionRegexTest extends TestCase {
   public function getMockupRegexBuilder(): PreloadFinder {
     return  new class() extends PreloadFinder {
-      public function getExcludeRegex(): ?string {
-        return parent::getExcludeRegex();
+      public function getDirectoryExclusionRegex(): ?string {
+        return parent::getDirectoryExclusionRegex();
       }
     };
   }
@@ -21,18 +21,18 @@ class FInderExclusionRegexTest extends TestCase {
      * @var $finder PreloadFinder
      */
 
-    $this->assertNull($finder->getExcludeRegex());
+    $this->assertNull($finder->getDirectoryExclusionRegex());
 
     $finder->addExcludePath('test');
-    $this->assertSame('/^(test\/)/i', $finder->getExcludeRegex());
+    $this->assertSame('/^(test\/)/i', $finder->getDirectoryExclusionRegex());
 
     $finder->addExcludePath('test2');
-    $this->assertSame('/^(test\/|test2\/)/i', $finder->getExcludeRegex());
+    $this->assertSame('/^(test\/|test2\/)/i', $finder->getDirectoryExclusionRegex());
 
     $finder->addExcludePath('src\\');
-    $this->assertSame('/^(test\/|test2\/|src\/)/i', $finder->getExcludeRegex());
+    $this->assertSame('/^(test\/|test2\/|src\/)/i', $finder->getDirectoryExclusionRegex());
 
     $finder->addExcludePath('src/');
-    $this->assertSame('/^(test\/|test2\/|src\/|src\/)/i', $finder->getExcludeRegex());
+    $this->assertSame('/^(test\/|test2\/|src\/|src\/)/i', $finder->getDirectoryExclusionRegex());
   }
 }
