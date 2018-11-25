@@ -46,6 +46,7 @@ example:
                 "web/core/modules/simpletest",
                 "web/core/modules/editor/src/Tests"
             ],
+            "exclude-regex": "/[A-Za-z0-9_]test\\.php$/i",
             "no-status-check": false
         }
     }
@@ -72,6 +73,21 @@ An array of directory paths to look for `.php` files in. This setting is require
 
 An array of directory paths to exclude from the `preload.php`. This list must be relative to the composer.json file, 
 similar to the `paths` directive. The ideal use case limiting the scope of the `paths` directive.
+
+ - `extra.preload.exclude-regex` : _Optional_
+
+Set a PCRE compatible full regular expression (with delimiters and modifiers included) that will be matched against
+the full path, and if matched, will be excluded from the preload list. This can help you exclude tests from the preload
+list.
+
+For example, to exclude all PHPUnit-akin tests, you can use the regular expression `/[A-Za-z0-9_]test\\.php$/i`.
+This will make sure the file name ends with "test.php", but also has an alphanumeric or underscore prefix. This is 
+a common pattern of PHPUnit tests. The `/i` modifier makes the match case insensitive. 
+
+For directory separators, always use Unix-style forward slashes (`/`) even if you are on a Windows system that uses 
+backwards slashes (`\`). Don't forget to properly escape the regex pattern to work within JSON syntax; e.g escape
+slashes (`\` and `/`) with a backwards slash (`\` -> `\\` and `/` -> `\/`). This will make the regular expression
+hard to read, but ¯\\_(ツ)_/¯.
 
  - `extra.preload.no-status-check`: _Optional_, Default: _`false`_
 
