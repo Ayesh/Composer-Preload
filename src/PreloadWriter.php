@@ -31,12 +31,12 @@ HEADER;
     return <<<CHECK
 
 if (!function_exists('opcache_compile_file') || !ini_get('opcache.enable')) {
-  echo "Opcache is not available.";
+  echo 'Opcache is not available.';
   die(1);
 }
 
 if ('cli' === PHP_SAPI && !ini_get('opcache.enable_cli')) {
-  echo "Opcache is not enabled for CLI applications.";
+  echo 'Opcache is not enabled for CLI applications.';
   die(2);
 }
 
@@ -44,7 +44,8 @@ CHECK;
   }
 
   private function genCacheLine(string $file_path): string {
-    return 'opcache_compile_file( "'. addslashes($file_path) . '");' . PHP_EOL;
+    $file_path = addslashes($file_path);
+    return "opcache_compile_file('{$file_path}');" . PHP_EOL;
   }
 
   public function getScript(): string {
