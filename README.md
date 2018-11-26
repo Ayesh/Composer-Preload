@@ -109,6 +109,53 @@ In a webserver context, or when you cannot run the PHP file with the CLI `php` b
 want to link `vendor/preload.php` into your docroot somwhere and curl it. For example, 
 `ln -s vendor/preload.php path/to/docroot/preload.php` and then `curl localhost/preload.php` on webserver startup.
 
+
+# FAQ
+
+### What does this plugin even do?
+
+This plugin can create a new file at `vendor/preload.php` that follows the pattern of Composer's autoloader at 
+`vendor/autoload.php`. This new `preload.php` file contains several function calls that compiles PHP files and cache
+them into PHP's opcache. PHP Opcache is a shared memory (with optional file storage option) feature in PHP that can
+hold compiled PHP files, so the same file doesn't need to be compiled again and again when its called. This is a
+persistent memory until PHP is restarted or the cache is eventually cleared. 
+
+Caching files in opcache has siginificant performance benefits for the cost of memory.
+
+### So all the files are loaded all the time?
+
+All the files are loaded to the _Opcache_. This is **not** same as you `include()` or `require()` a class, which makes
+PHP actually execute the code. When you cache code to Opcache, those classes are not executed - just their compiled code
+is cached to the memory. 
+
+For example, if you declare a variable, this plugin's preload functionality will not make the variables available inside
+your PHP code. You still have to include the file to make them available. 
+
+### I have the `vendor/preload.php` file. What now?
+
+After generating the file, you might need to actaully run it effectively load the files to Opcache. Ideally, you should
+do this every time you restart your web server or PHP server, depending on how you serve PHP within your web server. 
+
+PHP 7.4 has a `php.ini` option `opcache.preload` that you can specify this generated file, or a separate file that calls
+all `vendor/preload.php` files you have across your server to actively warm up the cache. 
+
+### I have multiple Composer projects running on same server. 
+
+You can generate the preload file for each project, and include all of them in a separate PHP file you create by
+yourself. Then, call all of the generated `vendor/preload.php` files. 
+
+By default, the preload file will contain a small snippet at the top that will quit the script immediately if Opcache
+is not available. If you plan to include this `vendor/preload.php` file from another script, you can use the special
+command line option `composer preoad --no-status-check` that will make the `vendor/preload.php` file not contain these
+checks, so you can incude multiple `vendor/preload.php` files across all your projects without running the same snippet
+over and over. It is recommended that you make sure Opcache is enabled before doing so. Feel free to copypasta the
+snippet from one of your generated preload files. 
+
+### Can I generate the preload file in one server and use it in another server?
+
+Preload file uses absolute paths. Unless both of your servers have same directory hierarchy, you cannot do this. It is 
+recommend _not_ to include the `vendor/preload.php` file in your version control system.
+
 # Roadmap
 
  - ☐ Extend `extras.preload` section to configure the packages that  should be preloaded instead of setting the individual paths.
