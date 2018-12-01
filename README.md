@@ -46,6 +46,7 @@ example:
                 "web/core/modules/simpletest",
                 "web/core/modules/editor/src/Tests"
             ],
+            "extensions": ["php", "module", "inc", "install"],
             "exclude-regex": "/[A-Za-z0-9_]test\\.php$/i",
             "no-status-check": false
         }
@@ -73,6 +74,12 @@ An array of directory paths to look for `.php` files in. This setting is require
 
 An array of directory paths to exclude from the `preload.php`. This list must be relative to the composer.json file, 
 similar to the `paths` directive. The ideal use case limiting the scope of the `paths` directive.
+
+ - `extra.preload.extensions` : _Optional_, Default: `["php"]`
+
+An array of file extensions to search for. If not entered, it will search for all `.php` files.
+Do not enter the proceeding period (`.`) character. The example above is suitable for Drupal. For Symfony/Laravel projects,
+you can leave the default option `["php"]` or just not use this option so it defaults to just `.php`.
 
  - `extra.preload.exclude-regex` : _Optional_
 

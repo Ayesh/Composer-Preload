@@ -89,11 +89,15 @@ HELP
 
     $generator->setExcludeRegex($this->config['exclude-regex']);
 
+    foreach ($this->config['extensions'] as $extension) {
+      $generator->addIncludeExtension($extension);
+    }
+
     return $generator->getList();
   }
 
   private function validateConfiguration(): void {
-    $force_str_array = ['paths', 'exclude'];
+    $force_str_array = ['paths', 'exclude', 'extensions'];
     foreach ($force_str_array as $item) {
       if (!isset($this->config[$item])) {
         $this->config[$item] = [];

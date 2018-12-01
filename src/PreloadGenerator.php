@@ -30,4 +30,8 @@ class PreloadGenerator {
   public function setExcludeRegex(?string $pattern): void {
     $this->finder->setExcludeRegex($pattern);
   }
+
+  public function addIncludeExtension(string $extension): void {
+    $this->finder->addIncludeExtension($extension);
+  }
 }

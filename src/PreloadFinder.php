@@ -10,7 +10,7 @@ class PreloadFinder {
   private $exclude_dirs = [];
   private $exclude_subdirs = [];
   private $exclude_regex_static;
-  private $files = '*.php';
+  private $files = ['php'];
 
   /**
    * @var \Symfony\Component\Finder\Finder
@@ -46,7 +46,10 @@ class PreloadFinder {
       throw new \BadMethodCallException('Illegal attempt to get iterator without setting include directory list.');
     }
 
-    $this->finder->files()->name($this->files);
+    foreach ($this->files as $extension) {
+      $this->finder->files()->name('*.' . $extension);
+    }
+
     $this->finder->in($this->include_dirs);
 
     if ($this->exclude_subdirs) {
@@ -123,5 +126,14 @@ class PreloadFinder {
     }
 
     $this->exclude_regex_static = $pattern;
+  }
+
+  public function addIncludeExtension(string $extension): void {
+    if (preg_match('/[^A-z0-9]/', $extension) !== 0) {
+      throw new \InvalidArgumentException(sprintf('File extension is not valid: "%s"', $extension));
+    }
+
+    $this->files[] = $extension;
+    $this->files = array_unique($this->files);
   }
 }
