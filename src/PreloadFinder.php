@@ -43,7 +43,7 @@ class PreloadFinder {
 
   private function prepareFinder(): void {
     if (empty($this->include_dirs)) {
-      throw new \InvalidArgumentException('Include directive cannot be empty.');
+      throw new \BadMethodCallException('Illegal attempt to get iterator without setting include directory list.');
     }
 
     $this->finder->files()->name($this->files);
