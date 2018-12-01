@@ -170,6 +170,6 @@ recommend _not_ to include the `vendor/preload.php` file in your version control
  - ☐ Progress bar to show the file generation progress
  - ☐ Flag to generate the file _and_ run it, so the cache is immediately warmed up.
  - ☐ Fancier progress bar.
- - ☐ Full test coverage.
+ - ⭕ Full test coverage.
  - ☐ Even more fancier progress bar with opcache memory usage display, etc.
  - ☐ Get many Github stars
