@@ -106,7 +106,7 @@ If this setting is set to `true` (you can also pass command line option `--no-st
 default, and the generated `preload.php` file will contain a small snippet on the top that makes it quit if opcache is 
 not enabled.
 
- - `extra.preload.paths` : _Optional_
+ - `extra.preload.files` : _Optional_
 
 An array of single `.php` files to be included. This setting is optional. The files must exist
  at the time `composer preload` command is run.
