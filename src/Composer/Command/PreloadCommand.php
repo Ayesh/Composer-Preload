@@ -79,6 +79,10 @@ HELP
 
     $this->validateConfiguration();
 
+    foreach ($this->config['files'] as $file) {
+      $generator->addFile($file);
+    }
+    
     foreach ($this->config['paths'] as $path) {
       $generator->addPath($path);
     }

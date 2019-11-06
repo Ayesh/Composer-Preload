@@ -7,6 +7,7 @@ use Symfony\Component\Finder\Finder;
 
 class PreloadFinder {
   private $include_dirs = [];
+  private $include_files = [];
   private $exclude_dirs = [];
   private $exclude_subdirs = [];
   private $exclude_regex_static;
@@ -28,6 +29,10 @@ class PreloadFinder {
     return $this->finder->getIterator();
   }
 
+  public function addIncludeFile(string $file_name): void {
+    $this->include_files[] =  new \SplFileInfo($file_name);
+  }
+  
   public function addIncludePath(string $dir_name): void {
     $this->include_dirs[] = $dir_name;
   }
@@ -60,6 +65,12 @@ class PreloadFinder {
     if ($exclude_function !== null) {
       $this->finder->filter($exclude_function);
     }
+
+    // include_files
+    if($include_files = $this->include_files) {
+        $this->finder->append($include_files);
+    }
+    
   }
 
   private function getExcludeCallable(): ?callable {

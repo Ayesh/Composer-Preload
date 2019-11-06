@@ -23,6 +23,10 @@ class PreloadGenerator {
     $this->finder->addIncludePath($path);
   }
 
+  public function addFile(string $file): void {
+    $this->finder->addIncludeFile($file);
+  }
+
   public function addExcludePath(string $path): void {
     $this->finder->addExcludePath($path);
   }
