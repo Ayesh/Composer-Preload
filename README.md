@@ -108,7 +108,7 @@ not enabled.
 
  - `extra.preload.files` : _Optional_
 
-An array of single `.php` files to be included. This setting is optional. The files must exist
+An array of single files to be included. This setting is optional. The files must exist
  at the time `composer preload` command is run.
 
 # Preloading
@@ -161,7 +161,7 @@ yourself. Then, call all of the generated `vendor/preload.php` files.
 
 By default, the preload file will contain a small snippet at the top that will quit the script immediately if Opcache
 is not available. If you plan to include this `vendor/preload.php` file from another script, you can use the special
-command line option `composer preoad --no-status-check` that will make the `vendor/preload.php` file not contain these
+command line option `composer preload --no-status-check` that will make the `vendor/preload.php` file not contain these
 checks, so you can incude multiple `vendor/preload.php` files across all your projects without running the same snippet
 over and over. It is recommended that you make sure Opcache is enabled before doing so. Feel free to copypasta the
 snippet from one of your generated preload files. 
