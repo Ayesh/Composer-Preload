@@ -51,6 +51,9 @@ example:
             "no-status-check": false,
             "files": [
                 "somefile.php"
+            ],
+            "exclude-files": [
+                "web/some_file_in_paths_to_exclude.php"
             ]
         }
     }

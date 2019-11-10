@@ -38,4 +38,8 @@ class PreloadGenerator {
   public function addIncludeExtension(string $extension): void {
     $this->finder->addIncludeExtension($extension);
   }
+
+  public function addExcludeFiles(array $files): void {
+    $this->finder->addExcludeFiles($files);
+  }
 }
