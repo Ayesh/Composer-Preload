@@ -34,8 +34,8 @@ class PreloadFinder {
     $this->include_files[] =  new \SplFileInfo($file_name);
   }
 
-  public function addExcludedFiles(array $files): void {
-    $this->excluded_files = $files;
+  public function addExcludeFiles(array $files): void {
+    $this->exclude_files = $files;
   }
   
   public function addIncludePath(string $dir_name): void {
@@ -81,13 +81,13 @@ class PreloadFinder {
   private function getExcludeCallable(): ?callable {
     $regex_dir = $this->getDirectoryExclusionRegex();
     $regex_static = $this->exclude_regex_static;
-    $excludedFiles = $this->excluded_files;
+    $excludeFiles = $this->exclude_files;
 
     if (!$regex_dir && $this->exclude_regex_static === null) {
       return null;
     }
 
-    return function (\SplFileInfo $file) use ($regex_dir, $regex_static, $excludedFiles): bool {
+    return function (\SplFileInfo $file) use ($regex_dir, $regex_static, $excludeFiles): bool {
       $path = str_replace('\\', '/', $file->getPathname());
       $exclude_match = false;
       if ($regex_dir) {
@@ -100,7 +100,7 @@ class PreloadFinder {
       }
 
       // If excluded due to regex matching above, don't run singular file regex.
-      if(!$exclude_match && in_array($path, $excludedFiles)) {
+      if(!$exclude_match && in_array($path, $excludeFiles)) {
         $exclude_match = true;
       }
 

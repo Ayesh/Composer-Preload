@@ -58,10 +58,6 @@ HELP
       $writer->setStatusCheck(false);
     }
 
-    if(\isset($this->config['exclude-files'])) {
-      $writer->setExcludeFiles($this->config['exclude-files']))
-    }
-    
     $writer->write();
 
     $io = $this->getIO();
@@ -101,7 +97,9 @@ HELP
       $generator->addIncludeExtension($extension);
     }
 
-    $generator->setExcludeFiles($this->config['exclude-files']);
+    if(isset($this->config['exclude-files'])) {
+      $generator->addExcludeFiles($this->config['exclude-files']);
+    }
 
     return $generator->getList();
   }
