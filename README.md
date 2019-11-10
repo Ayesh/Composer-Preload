@@ -114,11 +114,17 @@ not enabled.
 An array of single files to be included. This setting is optional. The files must exist
  at the time `composer preload` command is run.
 
+- `extra.preload.exclude-files` : _Optional_
+
+An array of file with paths to exclude for. This option is suitable to blacklist a certain file that opcache will never 
+open but within the path and passes all regex tests. Example of files that may be exclude are phpinfo.php, a test
+file, shell scripts.
+
 # Preloading
 
 To do the actual preloading, execute `vendor/preload.php`. 
 
-If you have enabled opcache for CLI applications, you can directly call `php vendor/preload.php` to execute the 
+If you have enabled opcache for CLI ( _to enable opcache via CLI `opcache.enable_cli` at php.ini_ ) applications, you can directly call `php vendor/preload.php` to execute the 
 generated PHP file and warm up the cache right away. 
 
 Future versions of this plugin will have a feature to generate the file _and_ immediately run it.
