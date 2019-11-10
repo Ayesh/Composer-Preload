@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.2 | ^8.0",
         "composer-plugin-api": "^1.0",
         "ayesh/php-timer": "^2.0.1",
         "symfony/finder": "^3.4.18 | ^4.0.14 | ^4.1.7 | ^4.2.0"
