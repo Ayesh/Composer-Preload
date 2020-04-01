@@ -5,7 +5,7 @@ namespace Ayesh\ComposerPreload\Tests;
 use Ayesh\ComposerPreload\PreloadFinder;
 use PHPUnit\Framework\TestCase;
 
-class FInderExclusionRegexTest extends TestCase {
+class FinderExclusionRegexTest extends TestCase {
   public function getMockupRegexBuilder(): PreloadFinder {
     return  new class() extends PreloadFinder {
       public function getDirectoryExclusionRegex(): ?string {
