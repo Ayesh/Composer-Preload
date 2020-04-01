@@ -1,18 +1,24 @@
 language: php
 php:
-- 7.2
-- 7.3
-- 7.4snapshot 
-
-env:
-  matrix:
-  - PREFER_LOWEST="--prefer-lowest"
-  - PREFER_LOWEST=""
+  - 7.2
+  - 7.3
+  - 7.4
+  - nightly
+jobs:
+  allow_failures:
+    - php: nightly
+matrix:
+  allow_failures:
+    - php: nightly
+  include:
+    - php: 7.4
+      env: PREFER_LOWEST="--prefer-lowest"
+    - php: 7.2
+      env: PREFER_LOWEST="--prefer-lowest"
 
 before_script:
-- composer self-update
-- travis_retry composer update $PREFER_LOWEST --prefer-source --no-interaction --dev
+  - composer self-update
+  - travis_retry composer install --prefer-dist --no-interaction
+  - travis_retry composer  update --prefer-dist --no-interaction $PREFER_LOWEST
 script:
-- composer test
-#after_success:
-#- bash <(curl -s https://codecov.io/bash)
+  - composer test
