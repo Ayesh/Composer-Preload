@@ -23,6 +23,7 @@ class PreloadWriter {
  * during the next "composer preload" command. 
  */
 
+\$_root_directory = dirname(__DIR__);
 
 HEADER;
   }
@@ -45,7 +46,7 @@ CHECK;
 
   private function genCacheLine(string $file_path): string {
     $file_path = addslashes($file_path);
-    return "opcache_compile_file('{$file_path}');" . PHP_EOL;
+    return "opcache_compile_file(\$_root_directory . '/{$file_path}');" . PHP_EOL;
   }
 
   public function getScript(): string {
@@ -61,7 +62,7 @@ CHECK;
       /**
        * @var $file \SplFileInfo
        */
-      $list .= $this->genCacheLine($file->getRealPath());
+      $list .= $this->genCacheLine($file->getPathname());
       ++$this->count;
     }
 
