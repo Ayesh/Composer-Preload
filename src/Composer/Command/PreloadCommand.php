@@ -101,7 +101,7 @@ HELP
   }
 
   private function validateConfiguration(): void {
-    $force_str_array = ['paths', 'exclude', 'extensions'];
+    $force_str_array = ['paths', 'exclude', 'extensions', 'files'];
     foreach ($force_str_array as $item) {
       if (!isset($this->config[$item])) {
         $this->config[$item] = [];
