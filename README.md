@@ -168,8 +168,10 @@ snippet from one of your generated preload files.
 
 ### Can I generate the preload file in one server and use it in another server?
 
-Preload file uses absolute paths. Unless both of your servers have same directory hierarchy, you cannot do this. It is 
-recommend _not_ to include the `vendor/preload.php` file in your version control system.
+Yes. Similar to the `vendor/autoload.php` file, `vendor/preload.php` file this plugin generates also uses relative paths. 
+From version `v0.1.0` and forward, you can generate the preload file at one server and reuse it in other servers (directory hierarchies).
+
+You will still need to run the `vendor/preload.php` file in all servers that you want to preload opcache. 
 
 # Roadmap
 
