@@ -1,10 +1,6 @@
 <?php
 
-
 namespace Ayesh\ComposerPreload;
-
-
-use Traversable;
 
 final class PreloadList implements \IteratorAggregate {
 
