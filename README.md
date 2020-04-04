@@ -182,4 +182,4 @@ You will still need to run the `vendor/preload.php` file in all servers that you
  - ☐ Fancier progress bar.
  - ⭕ Full test coverage.
  - ☐ Even more fancier progress bar with opcache memory usage display, etc.
- - ☐ Get many Github stars
+ - ⭕ Get many Github stars
