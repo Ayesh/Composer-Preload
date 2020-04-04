@@ -45,6 +45,7 @@ CHECK;
   }
 
   private function genCacheLine(string $file_path): string {
+    $file_path = str_replace(DIRECTORY_SEPARATOR, '/', $file_path);
     $file_path = addslashes($file_path);
     return "opcache_compile_file(\$_root_directory . '/{$file_path}');" . PHP_EOL;
   }
