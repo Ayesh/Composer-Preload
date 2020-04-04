@@ -27,4 +27,16 @@ class Plugin implements  PluginInterface, Capable {
       CommandProvider::class => PreloadCommandProvider::class,
     );
   }
+
+	/**
+	 * @inheritDoc
+	 */
+	public function deactivate(Composer $composer, IOInterface $io) {
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function uninstall(Composer $composer, IOInterface $io) {
+	}
 }
