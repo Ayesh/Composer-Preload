@@ -3,7 +3,6 @@ php:
   - 7.2
   - 7.3
   - 7.4
-  - nightly
 jobs:
   allow_failures:
     - php: nightly
@@ -15,10 +14,12 @@ matrix:
       env: PREFER_LOWEST="--prefer-lowest"
     - php: 7.2
       env: PREFER_LOWEST="--prefer-lowest"
+    - php: nightly
+      env: PLATFORM_REQS="--ignore-platform-reqs"
 
 before_script:
   - composer self-update
-  - travis_retry composer install --prefer-dist --no-interaction --ignore-platform-reqs
-  - travis_retry composer  update --prefer-dist --no-interaction $PREFER_LOWEST --ignore-platform-reqs
+  - travis_retry composer install --prefer-dist --no-interaction $PLATFORM_REQS
+  - travis_retry composer  update --prefer-dist --no-interaction $PREFER_LOWEST $PLATFORM_REQS
 script:
   - composer test
