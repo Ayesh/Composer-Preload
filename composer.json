@@ -10,13 +10,13 @@
         }
     ],
     "require": {
-        "php": "^7.2 | ^8.0",
+        "php": "^7.2 || ^8.0",
         "composer-plugin-api": "^1.0 || ^2.0",
         "ayesh/php-timer": "^2.1.1",
-        "symfony/finder": "^3.4.18 | ^4.0.14 | ^4.1.7 | ^4.2.0 | ^5.0.7"
+        "symfony/finder": "^3.4.18 || ^4.0.14 || ^4.1.7 || ^4.2.0 || ^5.0.7"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5.20 || ^8.5.3 || ^9.0.2",
+        "phpunit/phpunit": "^8.5.3 || ^9.0.2",
         "composer/composer": "^1.7.2"
     },
     "autoload": {
