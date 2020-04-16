@@ -4,17 +4,48 @@
 namespace Ayesh\ComposerPreload;
 
 
+use BadMethodCallException;
+use RuntimeException;
+use SplFileInfo;
+
 class PreloadWriter {
-  private $list;
-  private $count;
-  private $status_check = true;
+    private $list;
+    private $count;
+    private $status_check = true;
 
-  public function __construct(PreloadList $list) {
-    $this->list = $list;
-  }
+    public function __construct(PreloadList $list) {
+        $this->list = $list;
+    }
 
-  private function getHeader(): string {
-    return <<< HEADER
+    public function write(): void {
+        $status = file_put_contents('vendor/preload.php', $this->getScript());
+        if (!$status) {
+            throw new RuntimeException('Error writing the preload file.');
+        }
+    }
+
+    public function getScript(): string {
+        $this->count = 0;
+        $list = $this->getHeader();
+
+        if ($this->status_check) {
+            $list .= $this->getStatusCheck();
+        }
+
+        $list .= '// Cache files to opcache.' . PHP_EOL;
+        foreach ($this->list as $file) {
+            /**
+             * @var $file SplFileInfo
+             */
+            $list .= $this->genCacheLine($file->getPathname());
+            ++$this->count;
+        }
+
+        return $list;
+    }
+
+    private function getHeader(): string {
+        return <<< HEADER
 <?php 
 
 /**
@@ -26,10 +57,10 @@ class PreloadWriter {
 \$_root_directory = dirname(__DIR__);
 
 HEADER;
-  }
+    }
 
-  private function getStatusCheck(): string {
-    return <<<CHECK
+    private function getStatusCheck(): string {
+        return <<<CHECK
 
 if (!function_exists('opcache_compile_file') || !ini_get('opcache.enable')) {
   echo 'Opcache is not available.';
@@ -42,49 +73,22 @@ if ('cli' === PHP_SAPI && !ini_get('opcache.enable_cli')) {
 }
 
 CHECK;
-  }
-
-  private function genCacheLine(string $file_path): string {
-    $file_path = str_replace(DIRECTORY_SEPARATOR, '/', $file_path);
-    $file_path = addslashes($file_path);
-    return "opcache_compile_file(\$_root_directory . '/{$file_path}');" . PHP_EOL;
-  }
-
-  public function getScript(): string {
-    $this->count = 0;
-    $list = $this->getHeader();
-
-    if ($this->status_check) {
-      $list .= $this->getStatusCheck();
     }
 
-    $list .= '// Cache files to opcache.' . PHP_EOL;
-    foreach ($this->list as $file) {
-      /**
-       * @var $file \SplFileInfo
-       */
-      $list .= $this->genCacheLine($file->getPathname());
-      ++$this->count;
+    private function genCacheLine(string $file_path): string {
+        $file_path = str_replace(DIRECTORY_SEPARATOR, '/', $file_path);
+        $file_path = addslashes($file_path);
+        return "opcache_compile_file(\$_root_directory . '/{$file_path}');" . PHP_EOL;
     }
 
-    return $list;
-  }
-
-  public function write(): void {
-    $status = file_put_contents('vendor/preload.php', $this->getScript());
-    if (!$status) {
-      throw new \RuntimeException('Error writing the preload file.');
+    public function getCount(): int {
+        if ($this->count === null) {
+            throw new BadMethodCallException('File count is not available until iterated.');
+        }
+        return $this->count;
     }
-  }
 
-  public function getCount(): int {
-    if ($this->count === NULL) {
-      throw new \BadMethodCallException('File count is not available until iterated.');
+    public function setStatusCheck(bool $check): void {
+        $this->status_check = $check;
     }
-    return $this->count;
-  }
-
-  public function setStatusCheck(bool $check): void {
-    $this->status_check = $check;
-  }
 }

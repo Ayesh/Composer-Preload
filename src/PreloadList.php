@@ -2,21 +2,24 @@
 
 namespace Ayesh\ComposerPreload;
 
-final class PreloadList implements \IteratorAggregate {
+use BadMethodCallException;
+use IteratorAggregate;
 
-  /**
-   * @var \IteratorAggregate
-   */
-  private $list;
+final class PreloadList implements IteratorAggregate {
 
-  public function setList(iterable $list): void {
-    $this->list = $list;
-  }
+    /**
+     * @var IteratorAggregate
+     */
+    private $list;
 
-  public function getIterator(): iterable {
-    if (!$this->list) {
-      throw new \BadMethodCallException('Attempting to fetch the iterator without setting one first.');
+    public function setList(iterable $list): void {
+        $this->list = $list;
     }
-    return $this->list;
-  }
+
+    public function getIterator(): iterable {
+        if (!$this->list) {
+            throw new BadMethodCallException('Attempting to fetch the iterator without setting one first.');
+        }
+        return $this->list;
+    }
 }
