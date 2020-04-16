@@ -12,13 +12,22 @@ class PreloadWriter {
     private $list;
     private $count;
     private $status_check = true;
+    private $filename = 'vendor/preload.php';
 
     public function __construct(PreloadList $list) {
         $this->list = $list;
     }
 
+    public function setPath(string $path): void {
+        $this->filename = $path;
+    }
+
+    public function getPath(): string {
+        return $this->filename;
+    }
+
     public function write(): void {
-        $status = file_put_contents('vendor/preload.php', $this->getScript());
+        $status = file_put_contents($this->filename, $this->getScript());
         if (!$status) {
             throw new RuntimeException('Error writing the preload file.');
         }

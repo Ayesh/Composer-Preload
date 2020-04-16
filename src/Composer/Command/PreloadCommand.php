@@ -6,6 +6,7 @@ namespace Ayesh\ComposerPreload\Composer\Command;
 use Ayesh\ComposerPreload\PreloadGenerator;
 use Ayesh\ComposerPreload\PreloadList;
 use Ayesh\ComposerPreload\PreloadWriter;
+use Ayesh\PHP_Timer\Formatter;
 use Ayesh\PHP_Timer\Stopwatch;
 use Composer\Command\BaseCommand;
 use Composer\IO\IOInterface;
@@ -104,19 +105,22 @@ HELP
             $writer->setStatusCheck(false);
         }
 
+        // Todo: Add support for configurable preload file destiations.
+
         $writer->write();
 
         $io = $this->getIO();
         $io->writeError('<info>Preload file created successfully.</info>');
         $io->writeError(
-            sprintf('<comment>Preload script contains %d files.</comment>', $writer->getCount()),
-            true,
-            IOInterface::VERBOSE
+            sprintf('<comment>Preload script (<info>%s</info>) contains <info>%d</info> files.</comment>', $writer->getPath(), $writer->getCount()),
+            true
         );
+
+        $ms = (int) \round($timer->read() * 1000);
+
         $io->writeError(
-            sprintf('<comment>Elapsed time: %.2f sec.</comment>', $timer->read()),
-            true,
-            IOInterface::VERY_VERBOSE
+            sprintf('<comment>Elapsed time: <info>%s</info>.</comment>', Formatter::formatTime($ms)),
+            true
         );
     }
 
