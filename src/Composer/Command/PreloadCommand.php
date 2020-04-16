@@ -25,14 +25,46 @@ class PreloadCommand extends BaseCommand {
     ))
     ->setHelp(
       <<<HELP
-Composer Preload plugin adds this "preload" command, so you can generate a PHP file at 'vendor/preload.php' containing a list of 
-PHP files to load into opcache when called. This can significantly speed up your PHP applications if used correctly. 
 
-Use the --no-status-check option to generate the file without additional opcache 
-status checks. This can be useful if you want to include the 'vendor/preload.php' 
-within another script, so these checks redundent. This will override the 
-extra.preload.no-checks directive if used in the composer.json file.
+Composer Preload plugin adds this "preload" command, so you can generate a PHP file at 'vendor/preload.php' containing a list of PHP files to load into opcache when called. This can significantly speed up your PHP applications if used correctly. 
 
+Use the --no-status-check option to generate the file without additional opcache status checks. This can be useful if you want to include the 'vendor/preload.php' within another script, so these checks redundent. This will override the extra.preload.no-checks directive if used in the composer.json file.
+
+
+Example configuration for `composer.json`:
+
+-----------------
+"extra": {
+        "preload": {
+            "paths": [
+                "vendor/example/example-1/src",
+                "vendor/ayesh/php-timer/src",
+                "drupal-core"
+            ],
+            "exclude": [
+                "web/core/tests",
+                "vendor/example/example-2/src",
+                "web/core/modules/simpletest",
+                "web/core/modules/editor/src/Tests"
+            ],
+            "extensions": ["php", "module", "inc", "install"],
+            "exclude-regex": "/[A-Za-z0-9_]test\\.php$/i",
+            "no-status-check": false,
+            "files": [
+                "somefile.php"
+            ]
+        }
+    }
+-----------------
+
+ - paths: An array of paths to scan for files
+ - extensions: An array of extensions (without the dot) to filter file extensions
+ - files: An array of individual files to include.
+ - exclude: An array of paths to exclude from the preload file, even if they match "paths" directive.
+ - no-status-check: A boolean indicating whether the generated preload file should skip extra checks or not
+ - exclude-regex: A regular expression to run on the full file path, and if matched, to be excluded from preload list.
+ 
+For more: https://github.com/Ayesh/Composer-Preload
 HELP
     );
   }
