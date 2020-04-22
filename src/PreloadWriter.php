@@ -71,7 +71,7 @@ HEADER;
     private function getStatusCheck(): string {
         return <<<CHECK
 
-if (\\function_exists('opcache_compile_file') || !\ini_get('opcache.enable')) {
+if (!\\function_exists('opcache_compile_file') || !\ini_get('opcache.enable')) {
   echo 'Opcache is not available.';
   die(1);
 }
@@ -80,6 +80,7 @@ if ('cli' === \PHP_SAPI && !\ini_get('opcache.enable_cli')) {
   echo 'Opcache is not enabled for CLI applications.';
   die(2);
 }
+
 
 CHECK;
     }
