@@ -17,10 +17,7 @@ jobs:
           - windows-latest
 
         php:
-          - "7.2"
-          - "7.3"
-          - "7.4"
-          - "8.0"
+          - "8.1"
 
     steps:
       - name: Checkout
@@ -32,12 +29,7 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: mbstring, opcache
 
-      - name: Install composer dependencies ignoring platform requirements
-        if: matrix.php == '8.0'
-        run: composer install --no-ansi --no-interaction --no-progress --ignore-platform-reqs
-
       - name: Install composer dependencies
-        if: matrix.php != '8.0'
         run: composer update --no-ansi --no-interaction --no-progress
 
       - name: Run tests
