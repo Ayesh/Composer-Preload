@@ -122,6 +122,8 @@ HELP
             sprintf('<comment>Elapsed time: <info>%s</info>.</comment>', Formatter::formatTime($ms)),
             true
         );
+        
+        return 0;
     }
 
     private function setConfig(array $config, InputInterface $input): void {
